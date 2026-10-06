@@ -134,3 +134,18 @@ Add a second label set from real leads, test a local model through Ollama to com
 ## License
 
 MIT
+
+## Result
+n8n:
+<img width="1916" height="1007" alt="image" src="https://github.com/user-attachments/assets/87109a73-ea81-43a2-8479-086a31ea025c" />
+
+Google Sheet Entry:
+<img width="1913" height="388" alt="image" src="https://github.com/user-attachments/assets/0af99ef9-150f-4167-af9f-b08304f2ae46" />
+
+Email:
+<img width="822" height="215" alt="image" src="https://github.com/user-attachments/assets/c804cb18-0f6b-40e6-a847-0ed3cde9748d" />
+
+
+
+
+
