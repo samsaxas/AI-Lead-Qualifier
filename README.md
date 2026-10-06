@@ -143,6 +143,7 @@ Google Sheet Entry:
 <img width="1913" height="388" alt="image" src="https://github.com/user-attachments/assets/0af99ef9-150f-4167-af9f-b08304f2ae46" />
 
 Email:
+
 <img width="822" height="215" alt="image" src="https://github.com/user-attachments/assets/c804cb18-0f6b-40e6-a847-0ed3cde9748d" />
 
 
