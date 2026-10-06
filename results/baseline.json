@@ -1,0 +1,410 @@
+{
+  "metrics": {
+    "n": 45,
+    "accuracy": 0.8444444444444444,
+    "macro_f1": 0.8486178486178485,
+    "per_class": {
+      "hot": {
+        "precision": 1.0,
+        "recall": 0.7333333333333333,
+        "f1": 0.846153846153846,
+        "support": 15
+      },
+      "warm": {
+        "precision": 0.6818181818181818,
+        "recall": 1.0,
+        "f1": 0.8108108108108109,
+        "support": 15
+      },
+      "cold": {
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.888888888888889,
+        "support": 15
+      }
+    },
+    "confusion": {
+      "hot": {
+        "hot": 11,
+        "warm": 4,
+        "cold": 0
+      },
+      "warm": {
+        "hot": 0,
+        "warm": 15,
+        "cold": 0
+      },
+      "cold": {
+        "hot": 0,
+        "warm": 3,
+        "cold": 12
+      }
+    },
+    "name": "baseline",
+    "failures": 0,
+    "needs_review": 0,
+    "hot_recall": 0.7333333333333333
+  },
+  "rows": [
+    {
+      "lead_id": "T045",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T015",
+      "true": "hot",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T030",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T031",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T001",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T016",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T032",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T002",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T017",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T033",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T003",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T018",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T034",
+      "true": "cold",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T004",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T019",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T035",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T005",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T020",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T036",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T006",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T021",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T037",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T007",
+      "true": "hot",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T022",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T038",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T008",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T023",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T039",
+      "true": "cold",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T009",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T024",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T040",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T010",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T025",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T041",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T011",
+      "true": "hot",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T026",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T042",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T012",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T027",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T043",
+      "true": "cold",
+      "pred": "cold",
+      "score": 10,
+      "reason": "matched a cold keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T013",
+      "true": "hot",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T028",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T044",
+      "true": "cold",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    },
+    {
+      "lead_id": "T014",
+      "true": "hot",
+      "pred": "hot",
+      "score": 85,
+      "reason": "matched a hot keyword rule",
+      "ms": 0
+    },
+    {
+      "lead_id": "T029",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "no rule matched (default)",
+      "ms": 0
+    }
+  ]
+}

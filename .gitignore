@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.env
+.n8n/
+# keep the baseline result, ignore scratch runs
+results/wiring_test.json

@@ -1,0 +1,414 @@
+{
+  "metrics": {
+    "n": 45,
+    "accuracy": 0.9777777777777777,
+    "macro_f1": 0.9777530589543938,
+    "per_class": {
+      "hot": {
+        "precision": 0.9375,
+        "recall": 1.0,
+        "f1": 0.967741935483871,
+        "support": 15
+      },
+      "warm": {
+        "precision": 1.0,
+        "recall": 0.9333333333333333,
+        "f1": 0.9655172413793104,
+        "support": 15
+      },
+      "cold": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 15
+      }
+    },
+    "confusion": {
+      "hot": {
+        "hot": 15,
+        "warm": 0,
+        "cold": 0
+      },
+      "warm": {
+        "hot": 1,
+        "warm": 14,
+        "cold": 0
+      },
+      "cold": {
+        "hot": 0,
+        "warm": 0,
+        "cold": 15
+      }
+    },
+    "name": "llm",
+    "failures": 0,
+    "needs_review": 0,
+    "hot_recall": 1.0,
+    "latency_ms": {
+      "median": 1257.9936999827623,
+      "p95": 1553.2065997831523
+    }
+  },
+  "rows": [
+    {
+      "lead_id": "T045",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Unrelated request about weather, no real estate purchase intent.",
+      "ms": 1350
+    },
+    {
+      "lead_id": "T015",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Clear intent, specific size, locality, budget of 1.1 Cr, 30-day timeline, and call requested.",
+      "ms": 1442
+    },
+    {
+      "lead_id": "T030",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "Asking about resale properties and commission in a specific locality, showing genuine interest but no immediate timeline.",
+      "ms": 1283
+    },
+    {
+      "lead_id": "T031",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Just browsing with a purchase timeline of a couple of years.",
+      "ms": 1090
+    },
+    {
+      "lead_id": "T001",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Specific property requirement, defined budget, loan pre-approved, and requested a site visit this Saturday.",
+      "ms": 1160
+    },
+    {
+      "lead_id": "T016",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "Asking for project pricing and RERA details indicates genuine interest without a firm timeline.",
+      "ms": 3434
+    },
+    {
+      "lead_id": "T032",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Job enquiry from a fresher, not a real estate customer.",
+      "ms": 1049
+    },
+    {
+      "lead_id": "T002",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Ready token amount, specific property, and urgent timeline to book before price revision.",
+      "ms": 1537
+    },
+    {
+      "lead_id": "T017",
+      "true": "warm",
+      "pred": "warm",
+      "score": 45,
+      "reason": "General interest in buying this year with a target locality, but no specific budget or urgent timeline.",
+      "ms": 1147
+    },
+    {
+      "lead_id": "T033",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Vendor pitch offering digital marketing services, not a real-estate enquiry.",
+      "ms": 1309
+    },
+    {
+      "lead_id": "T003",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Immediate timeline, specific location and budget, and request for site visits this weekend.",
+      "ms": 1401
+    },
+    {
+      "lead_id": "T018",
+      "true": "warm",
+      "pred": "warm",
+      "score": 60,
+      "reason": "Asking about specific property details like payment plans and possession, but no urgent timeline stated.",
+      "ms": 1553
+    },
+    {
+      "lead_id": "T034",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "User already bought a property and is only seeking interior designer recommendations, unrelated to buying/renting.",
+      "ms": 1531
+    },
+    {
+      "lead_id": "T004",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Specific property mentioned with ready down payment and agreement request.",
+      "ms": 1200
+    },
+    {
+      "lead_id": "T019",
+      "true": "warm",
+      "pred": "warm",
+      "score": 60,
+      "reason": "Specific budget and property type, but still comparing builders with no fixed timeline.",
+      "ms": 1104
+    },
+    {
+      "lead_id": "T035",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Test message with no purchase intent.",
+      "ms": 1023
+    },
+    {
+      "lead_id": "T005",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Specific 3BHK requirement in HSR, clear 45-day timeline, budget of 1.8 Cr, and requested visits.",
+      "ms": 1126
+    },
+    {
+      "lead_id": "T020",
+      "true": "warm",
+      "pred": "warm",
+      "score": 45,
+      "reason": "Asking specific property questions indicating interest, but no firm timeline or budget provided.",
+      "ms": 1318
+    },
+    {
+      "lead_id": "T036",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Wrong number for reporting a power cut, unrelated to real estate.",
+      "ms": 1192
+    },
+    {
+      "lead_id": "T006",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Immediate site visit requested with documents and payment ready.",
+      "ms": 1054
+    },
+    {
+      "lead_id": "T021",
+      "true": "warm",
+      "pred": "warm",
+      "score": 45,
+      "reason": "Asking for details on a specific listing, but no firm timeline or budget yet.",
+      "ms": 1213
+    },
+    {
+      "lead_id": "T037",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "College project request for sales data, not a property buyer.",
+      "ms": 1115
+    },
+    {
+      "lead_id": "T007",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Clear budget, specific locality, ready-to-move requirement, urgent 3-week timeline, and request for meeting.",
+      "ms": 1094
+    },
+    {
+      "lead_id": "T022",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "Genuine interest but timeline is 4-5 months without specific budget or property mentioned.",
+      "ms": 1258
+    },
+    {
+      "lead_id": "T038",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Spam message offering a cruise, completely unrelated to real estate.",
+      "ms": 1102
+    },
+    {
+      "lead_id": "T008",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Home loan sanctioned, clear location and property type, ready for immediate registration.",
+      "ms": 1252
+    },
+    {
+      "lead_id": "T023",
+      "true": "warm",
+      "pred": "hot",
+      "score": 85,
+      "reason": "Specific locality mentioned with intent to purchase and query about home loans indicating readiness.",
+      "ms": 1403
+    },
+    {
+      "lead_id": "T039",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "General query about office timings with no purchase intent.",
+      "ms": 1226
+    },
+    {
+      "lead_id": "T009",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Immediate timeline, finalized budget, specific property, and site-visit request this weekend.",
+      "ms": 1324
+    },
+    {
+      "lead_id": "T024",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "Asking for specific project details and pricing indicates genuine interest but no immediate timeline.",
+      "ms": 1026
+    },
+    {
+      "lead_id": "T040",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Vendor pitch for lead generation, not a real estate enquiry.",
+      "ms": 1205
+    },
+    {
+      "lead_id": "T010",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Ready to book immediately, specific property mentioned, and requesting payment details.",
+      "ms": 1429
+    },
+    {
+      "lead_id": "T025",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "Genuine interest in 1BHK near Marathahalli with a 2-month timeline, but lacks immediate urgency.",
+      "ms": 1325
+    },
+    {
+      "lead_id": "T041",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Unrelated request for maintenance services, not a real estate inquiry.",
+      "ms": 1552
+    },
+    {
+      "lead_id": "T011",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Clear 30-day timeline, specific location, defined budget, deposit ready, and callback requested.",
+      "ms": 1605
+    },
+    {
+      "lead_id": "T026",
+      "true": "warm",
+      "pred": "warm",
+      "score": 45,
+      "reason": "Inquired about specific units from an ad, but no timeline or budget mentioned yet.",
+      "ms": 1529
+    },
+    {
+      "lead_id": "T042",
+      "true": "cold",
+      "pred": "cold",
+      "score": 5,
+      "reason": "Timeline is 2-3 years, and user is just collecting information for a friend.",
+      "ms": 1222
+    },
+    {
+      "lead_id": "T012",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Immediate timeline, specific location, defined budget, and urgent site visit request.",
+      "ms": 1318
+    },
+    {
+      "lead_id": "T027",
+      "true": "warm",
+      "pred": "warm",
+      "score": 60,
+      "reason": "Clear budget and interest in investment, but no specific timeline or property mentioned.",
+      "ms": 1149
+    },
+    {
+      "lead_id": "T043",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Opt-out request indicating no interest.",
+      "ms": 1300
+    },
+    {
+      "lead_id": "T013",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Ready loan, clear budget, specific project, and requested a site visit this Sunday.",
+      "ms": 1321
+    },
+    {
+      "lead_id": "T028",
+      "true": "warm",
+      "pred": "warm",
+      "score": 60,
+      "reason": "Asking for variant details and planning a visit, but no firm timeline or budget provided yet.",
+      "ms": 1224
+    },
+    {
+      "lead_id": "T044",
+      "true": "cold",
+      "pred": "cold",
+      "score": 0,
+      "reason": "Agency operates in Bengaluru, not Jaipur.",
+      "ms": 1526
+    },
+    {
+      "lead_id": "T014",
+      "true": "hot",
+      "pred": "hot",
+      "score": 95,
+      "reason": "Referred buyer wants specific property, ready to book this week.",
+      "ms": 1316
+    },
+    {
+      "lead_id": "T029",
+      "true": "warm",
+      "pred": "warm",
+      "score": 50,
+      "reason": "Genuine interest in a specific property type, but no firm timeline or finalized decision.",
+      "ms": 1203
+    }
+  ]
+}

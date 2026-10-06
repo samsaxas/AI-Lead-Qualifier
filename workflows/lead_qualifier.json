@@ -1,0 +1,345 @@
+{
+  "name": "AI Lead Qualifier",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-intake",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "6f1d2c44-7a0e-4b53-9d1e-2c6a8e3b1f90"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize the incoming webhook payload and build the LLM request.\nconst input = $input.first().json;\nconst body = input.body || {};\nconst query = input.query || {};\n\nconst message = String(body.message || '').trim().slice(0, 2000);\n\nconst systemPrompt = [\n  'You are a lead-qualification assistant for a real-estate agency in Bengaluru, India.',\n  'Classify one inbound enquiry as exactly one of: hot, warm, cold.',\n  'hot  = clear intent to buy or rent within about 30 days AND at least one concrete signal',\n  '       (stated budget, a specific property or locality, a site-visit or call request, loan or deposit ready).',\n  'warm = genuine interest but no firm timeline or budget, or still comparing options, or asking for information.',\n  'cold = no real purchase intent: just browsing, timeline longer than about 6 months, spam, vendor pitches,',\n  '       job enquiries, wrong number, or unrelated requests.',\n  'Return ONLY JSON: {\"intent\":\"hot|warm|cold\",\"score\":<integer 0-100 purchase-readiness>,\"reason\":\"<max 20 words>\"}'\n].join('\\n');\n\nreturn [{\n  json: {\n    lead_id: body.lead_id || ('L-' + Date.now()),\n    name: body.name || '',\n    email: body.email || '',\n    phone: body.phone || '',\n    source: body.source || 'website',\n    message,\n    dry_run: String(query.dry_run || '').toLowerCase() === 'true',\n    received_at: new Date().toISOString(),\n    started_at: Date.now(),\n    // Change the model name here if Google retires it (check the Gemini API docs).\n    llm_base_url: 'https://generativelanguage.googleapis.com/v1beta',\n    model: 'gemini-2.5-flash',\n    llm_body: {\n      systemInstruction: { parts: [{ text: systemPrompt }] },\n      contents: [{ role: 'user', parts: [{ text: message || '(empty message)' }] }],\n      generationConfig: { temperature: 0, responseMimeType: 'application/json' }\n    }\n  }\n}];\n"
+      },
+      "id": "normalize",
+      "name": "Normalize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.llm_base_url }}/models/{{ $json.model }}:generateContent",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.llm_body }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "llm-classify",
+      "name": "LLM Classify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "Gemini API Key"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate the LLM output. Anything unexpected falls back to 'warm' + needs_review\n// so a human checks it instead of the lead being silently dropped.\nconst base = { ...$('Normalize').first().json };\ndelete base.llm_body;\nconst res = $input.first().json;\n\nlet out = { intent: 'warm', score: 50, reason: 'LLM unavailable or invalid output', needs_review: true };\ntry {\n  const text = res.candidates[0].content.parts[0].text;\n  const p = JSON.parse(text);\n  const intent = String(p.intent || '').toLowerCase();\n  if (['hot', 'warm', 'cold'].includes(intent)) {\n    out = {\n      intent,\n      score: Math.max(0, Math.min(100, Math.round(Number(p.score) || 0))),\n      reason: String(p.reason || '').slice(0, 200),\n      needs_review: false\n    };\n  }\n} catch (e) { /* keep fallback */ }\n\nreturn [{ json: { ...base, ...out, latency_ms: Date.now() - base.started_at } }];\n"
+      },
+      "id": "parse-result",
+      "name": "Parse Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.dry_run }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "is-dry-run",
+      "name": "Is Dry Run",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        880,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { lead_id: $('Parse Result').first().json.lead_id, intent: $('Parse Result').first().json.intent, score: $('Parse Result').first().json.score, reason: $('Parse Result').first().json.reason, needs_review: $('Parse Result').first().json.needs_review, latency_ms: $('Parse Result').first().json.latency_ms } }}",
+        "options": {}
+      },
+      "id": "respond-dry-run",
+      "name": "Respond (dry run)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Exactly the columns of the Google Sheet (see README).\nconst r = $('Parse Result').first().json;\nreturn [{ json: {\n  received_at: r.received_at, lead_id: r.lead_id, name: r.name, email: r.email,\n  phone: r.phone, source: r.source, message: r.message, intent: r.intent,\n  score: r.score, reason: r.reason, needs_review: r.needs_review, latency_ms: r.latency_ms\n} }];\n"
+      },
+      "id": "shape-row",
+      "name": "Shape Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "REPLACE_WITH_YOUR_SHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "log-to-google-sheets",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1320,
+        440
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Parse Result').first().json.intent }}",
+              "operation": "equal",
+              "value2": "hot"
+            }
+          ]
+        }
+      },
+      "id": "is-hot-lead",
+      "name": "Is Hot Lead",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@example.com",
+        "toEmail": "agent@example.com",
+        "subject": "={{ 'HOT lead (' + $('Parse Result').first().json.score + '): ' + $('Parse Result').first().json.name }}",
+        "emailFormat": "text",
+        "text": "={{ 'Name: ' + $('Parse Result').first().json.name + '\\nEmail: ' + $('Parse Result').first().json.email + '\\nPhone: ' + $('Parse Result').first().json.phone + '\\nSource: ' + $('Parse Result').first().json.source + '\\nScore: ' + $('Parse Result').first().json.score + '\\nWhy: ' + $('Parse Result').first().json.reason + '\\n\\nMessage:\\n' + $('Parse Result').first().json.message }}",
+        "options": {}
+      },
+      "id": "email-alert",
+      "name": "Email Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1760,
+        340
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_ME",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { lead_id: $('Parse Result').first().json.lead_id, intent: $('Parse Result').first().json.intent, score: $('Parse Result').first().json.score, reason: $('Parse Result').first().json.reason, needs_review: $('Parse Result').first().json.needs_review, latency_ms: $('Parse Result').first().json.latency_ms } }}",
+        "options": {}
+      },
+      "id": "respond-live",
+      "name": "Respond (live)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1980,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize": {
+      "main": [
+        [
+          {
+            "node": "LLM Classify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Classify": {
+      "main": [
+        [
+          {
+            "node": "Parse Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Result": {
+      "main": [
+        [
+          {
+            "node": "Is Dry Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Dry Run": {
+      "main": [
+        [
+          {
+            "node": "Respond (dry run)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Shape Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shape Row": {
+      "main": [
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Is Hot Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Hot Lead": {
+      "main": [
+        [
+          {
+            "node": "Email Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond (live)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Alert": {
+      "main": [
+        [
+          {
+            "node": "Respond (live)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}
