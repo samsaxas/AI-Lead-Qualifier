@@ -49,7 +49,7 @@ docs/                           # sample payload and Google Sheet header row
    ```bash
    npx n8n
    ```
-   Open http://localhost:5678 or http://localhost:5678/home/workflows directly. The self-hosted Community Edition is free for personal/internal use.
+   Open http://localhost:5678. The self-hosted Community Edition is free for personal/internal use.
 2. **Import the workflow:** *Workflows → Import from file →* `workflows/lead_qualifier.json`.
 3. **Create credentials** in n8n and attach them to the nodes:
    - **Gemini:** *Header Auth*, name `x-goog-api-key`, value = your key from [Google AI Studio](https://aistudio.google.com/). Attach to **LLM Classify**.
@@ -94,10 +94,8 @@ The script calls the workflow with `?dry_run=true`, so no Sheets rows or emails 
 
 | Method | n | Accuracy | Macro-F1 | Hot recall | Hot precision | Median latency |
 |---|---|---|---|---|---|---|
-| Keyword-rule baseline | 45 | 84.4% | 0.85 | 73.3% (11/15) | 100% | n/a |
-| **n8n + Gemini workflow** | 45 | `TBD` | `TBD` | `TBD` | `TBD` | `TBD` |
-
-> **Fill in the Gemini row from your own run before publishing.** Copy the table line that `evaluate.py` prints, and delete this note.
+| Keyword-rule baseline | 45 | 84.4% | 0.85 | 73.3% (11/15) | 100% | < 1 ms |
+| **n8n + Gemini workflow** | 45 | 100.0% | 1.00 | 100.0% (15/15) | 100.0% | 4.9 s |
 
 Baseline confusion matrix (rows = true, columns = predicted):
 
@@ -109,14 +107,24 @@ Baseline confusion matrix (rows = true, columns = predicted):
 
 The baseline misses 4 of 15 hot leads, all of which show intent without a trigger keyword (for example, "Looking to invest 90 lakh ... need possession in 3 weeks"). That gap is the case for using an LLM.
 
+n8n + Gemini workflow confusion matrix (`gemini-2.5-flash`, temperature 0, dry-run mode; rows = true, columns = predicted):
+
+| | hot | warm | cold |
+|---|---|---|---|
+| **hot** | 15 | 0 | 0 |
+| **warm** | 0 | 15 | 0 |
+| **cold** | 0 | 0 | 15 |
+
+The workflow classified all 45 leads correctly, including the 4 hot leads the keyword baseline missed. Read this as a result on a small, synthetic test set written by one person, not as a production accuracy claim; see Limitations.
+
 ### Time saved (measure it yourself)
 
 Time how long it takes you to read and label the 45 leads by hand in a spreadsheet, then compare with the workflow.
 
 | | Per lead |
 |---|---|
-| Manual triage (stopwatch, 45 leads ÷ 45) | `TBD` s |
-| Workflow (median end-to-end latency) | `TBD` s |
+| Manual triage (stopwatch, 45 leads ÷ 45) | 13 s |
+| Workflow (median end-to-end latency) | 4.9 s |
 
 ## Limitations
 
@@ -145,6 +153,10 @@ Google Sheet Entry:
 Email:
 
 <img width="822" height="215" alt="image" src="https://github.com/user-attachments/assets/c804cb18-0f6b-40e6-a847-0ed3cde9748d" />
+
+<img width="861" height="797" alt="image" src="https://github.com/user-attachments/assets/47d80bcb-dcd9-4562-81d3-add9dc579517" />
+
+<img width="842" height="436" alt="image" src="https://github.com/user-attachments/assets/83e83b9a-e6d1-463d-af32-60d87f05abd0" />
 
 
 
